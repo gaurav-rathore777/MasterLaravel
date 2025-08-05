@@ -7,13 +7,13 @@ export default function handler(req, res) {
   const { username, password } = req.body;
 
   // Mock user
-  if (username === "admin" && password === "admin123") {
+  if (username && password) {
     const token = createToken({ username });
     res.setHeader(
       "Set-Cookie",
       cookie.serialize("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: "development",
         maxAge: 3600,
         sameSite: "strict",
         path: "/",
