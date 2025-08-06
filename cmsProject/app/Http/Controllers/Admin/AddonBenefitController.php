@@ -1,65 +1,62 @@
 <?php
+// app/Http/Controllers/Admin/AddonBenefitController.php
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AddonBenefit;
 use Illuminate\Http\Request;
 
 class AddonBenefitController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $addons = AddonBenefit::latest()->paginate(10);
+        return view('admin.addon-benefits.index', compact('addons'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.addon-benefits.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'icon_class' => 'required',
+            'title' => 'required',
+            'subtitle' => 'nullable',
+        ]);
+
+        AddonBenefit::create($request->only('icon_class', 'title', 'subtitle'));
+
+        return redirect()->route('admin.addon-benefits.index')
+            ->with('success', 'Addon Benefit created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(AddonBenefit $addon_benefit)
     {
-        //
+        return view('admin.addon-benefits.edit', compact('addon_benefit'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, AddonBenefit $addon_benefit)
     {
-        //
+        $request->validate([
+            'icon_class' => 'required',
+            'title' => 'required',
+            'subtitle' => 'nullable',
+        ]);
+
+        $addon_benefit->update($request->only('icon_class', 'title', 'subtitle'));
+
+        return redirect()->route('addon-benefits.index')
+            ->with('success', 'Addon Benefit updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(AddonBenefit $addon_benefit)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $addon_benefit->delete();
+        return redirect()->route('addon-benefits.index')
+            ->with('success', 'Addon Benefit deleted successfully.');
     }
 }

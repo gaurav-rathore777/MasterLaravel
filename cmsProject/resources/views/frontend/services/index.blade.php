@@ -63,7 +63,7 @@
         <p>No services available.</p>
     @endif
 </section>
-
+{{-- 
 <section class="container">
     <div class="addons-section">
         <div class="row">
@@ -93,6 +93,65 @@
             </div>
         </div>
     </div>
+</section> --}}
+
+<section class="container">
+    <div class="addons-section py-5">
+        <div class="row">
+            <div class="col-md-8">
+                <h2 class="mb-4">Add-On Benefits for All Clients</h2>
+                <p>We provide these additional services to all our valued clients:</p>
+
+                @if($addons->count())
+                    @foreach($addons as $addon)
+                    <div class="addon-item d-flex align-items-start mb-3">
+                        <div class="addon-icon me-3">
+                            <i class="{{ $addon->icon_class }} fa-2x text-primary"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">{{ $addon->title }}</h5>
+                            <p class="mb-0 text-muted">{{ $addon->subtitle }}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                @else
+                    <p>No add-on benefits found at this time.</p>
+                @endif
+            </div>
+
+            <div class="col-md-4 d-flex align-items-center">
+                <div class="text-center mt-4 mt-md-0 w-100">
+                    <i class="fas fa-gift fa-4x mb-3 text-success"></i>
+                    <h3>Complimentary for All Clients</h3>
+                    <p class="text-muted">These value-added services come standard with every JSR Insurance relationship.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
+<!-- Contact Section -->
+<section class="container my-5">
+    <div class="row g-4">
+        @foreach ($contacts as $contact)
+            <div class="col-md-6">
+                <div class="contact-card text-center">
+                    <div class="contact-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h4>{{ $contact->name }}</h4>
+                    <p class="text-muted">{{ $contact->designation }}</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button class="btn btn-primary"><i class="fas fa-phone-alt me-2"></i>Call</button>
+                        <button class="btn btn-outline-primary"><i class="fas fa-envelope me-2"></i>Email</button>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
 
 @endsection
